@@ -19,7 +19,6 @@ function! Flake8BufferInfo()
     let result.filename = ''
     let result.parsed_messages = []
     let result.curr_index = -1
-    let result.env_folder = g:flake8_env
     return result
 endfunction
 
@@ -27,7 +26,7 @@ function! RunFlake8()
     let b:flake8_buffer_info.filename = expand("%")
     let l:flake8_command = "flake8 ".expand("%")
     if exists('g:flake8_env')
-        let l:env_activate = 'source '.b:flake8_buffer_info.env_folder.'/bin/activate;'
+        let l:env_activate = 'source '.g:flake8_env.'/bin/activate;'
         let l:flake8_command = l:env_activate.l:flake8_command.';deactivate'
     else
         let l:env_activate = ''
