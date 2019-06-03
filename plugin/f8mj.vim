@@ -23,6 +23,7 @@ function! Flake8BufferInfo()
 endfunction
 
 function! RunFlake8()
+    let b:flake8_buffer_info.parsed_messages = []
     let b:flake8_buffer_info.filename = expand("%")
     let l:flake8_command = "flake8 ".expand("%")
     if exists('g:flake8_env')
