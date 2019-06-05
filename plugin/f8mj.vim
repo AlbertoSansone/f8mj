@@ -60,6 +60,7 @@ endfunction
 
 function! JumpToNext(step)
     let l:len_messages = len(b:flake8_buffer_info.parsed_messages)
+    highlight Flake8Message ctermbg=lightred ctermfg=red cterm=bold
     if l:len_messages == 0
         echo 'No flake8 messages!'
         return 1
@@ -72,7 +73,11 @@ function! JumpToNext(step)
     endif
     let l:curr_message = b:flake8_buffer_info.parsed_messages[b:flake8_buffer_info.curr_index]
     call cursor(l:curr_message.line, l:curr_message.column)
+    let b:curr_line_pattern = '\%'.l:curr_message.line.'l'
+    let w:line_error_match = matchadd('Flake8Message', b:curr_line_pattern, -1)
+    echom w:line_error_match
     redraw | call EchoFlake8MessageBuffer(5)
+    call matchdelete(w:line_error_match)
 endfunction
 
 function! EchoFlake8MessageBuffer(context)
