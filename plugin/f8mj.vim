@@ -73,6 +73,7 @@ function! JumpToNext(step)
     endif
     let l:curr_message = b:flake8_buffer_info.parsed_messages[b:flake8_buffer_info.curr_index]
     call cursor(l:curr_message.line, l:curr_message.column)
+    execute 'normal zz'
     let b:curr_line_pattern = '\%'.l:curr_message.line.'l'
     let w:line_error_match = matchadd('Flake8Message', b:curr_line_pattern, -1)
     echom w:line_error_match
