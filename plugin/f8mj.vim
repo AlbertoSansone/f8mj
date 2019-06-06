@@ -84,21 +84,23 @@ endfunction
 function! EchoFlake8MessageBuffer(context)
     let messages = []
     let ci = b:flake8_buffer_info.curr_index
+    let l = len(b:flake8_buffer_info.parsed_messages)
     for mi in range(len(b:flake8_buffer_info.parsed_messages))
         let m = b:flake8_buffer_info.parsed_messages[mi]
         if (mi < ci) && (ci - mi <= a:context)
-            let m_str = m.raw
+            let m_str = '  '.m.raw
         elseif ci == mi
-            let l = len(b:flake8_buffer_info.parsed_messages)
             let m_str = m.raw
-            let m_str = (mi+1).'/'.l.'>>> '.m_str
+            let m_str = '> '.m_str
         elseif (mi > ci) && (mi - ci <= a:context)
-            let m_str = m.raw
+            let m_str = '  '.m.raw
         else
             continue
         endif
         call add(messages, m_str)
     endfor
+    let status = (ci + 1).'/'.l
+    call add(messages, status)
     let result = join(messages, "\n")
     echo result
 endfunction
